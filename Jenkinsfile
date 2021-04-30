@@ -1,7 +1,13 @@
 pipeline {
 
   agent any
-
+  environment {
+        //once you sign up for Docker hub, use that user_id here
+        registry = "dockerpractice101/hellowhale"
+        //- update your credentials ID after creating credentials for connecting to Docker Hub
+        registryCredential = 'dockerhub_id'
+   }
+  
   stages {
 
     stage('Checkout Source') {
@@ -18,10 +24,20 @@ pipeline {
             }
         }
     
-      stage("Push image") {
+     // stage("Push image") {
+     //       steps {
+     //           script {
+      //              docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+        //                    myapp.push("latest")
+         //                   myapp.push("${env.BUILD_ID}")
+         //           }
+                }
+         //   }
+      //  }
+    stage("Push image") {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                    docker.withRegistry('', 'registryCredential') {
                             myapp.push("latest")
                             myapp.push("${env.BUILD_ID}")
                     }
